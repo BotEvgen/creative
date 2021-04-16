@@ -1,11 +1,13 @@
 const defaultState = {
    flats: [],
-   likeFlats: []
+   likeFlats: [],
+   error: false,
 }
 
 const ADD_ALL_FLATS = 'ADD_ALL_FLATS';
 const LIKE_FLAT = 'LIKE_FLAT';
 const DISLIKE_FLAT = 'DISLIKE_FLAT';
+const ERROR = 'ERROR';
 
 
 export const flatReducer = (state = defaultState, action) => {
@@ -13,6 +15,7 @@ export const flatReducer = (state = defaultState, action) => {
       case ADD_ALL_FLATS:
          return {
             ...state,
+            error: false,
             flats: [...action.payload]
          }
       case LIKE_FLAT:
@@ -29,7 +32,11 @@ export const flatReducer = (state = defaultState, action) => {
             ...state,
             likeFlats: [...filteredDis]
          }
-
+      case ERROR:
+         return {
+            ...state,
+            error: true
+         }
       default:
          return state
    }
@@ -40,3 +47,5 @@ export const addAllFlatsAction = (payload) => ({ type: ADD_ALL_FLATS, payload })
 export const addLikeFlatAction = (payload) => ({ type: LIKE_FLAT, payload });
 
 export const addDisLikeFlatAction = (payload) => ({ type: DISLIKE_FLAT, payload });
+
+export const addErrorAction = () => ({ type: ERROR });

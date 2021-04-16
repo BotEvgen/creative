@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFlats } from '../../asyncActions/asyncActions';
 import FlatListItem from '../flatListItem';
+import Error from '../error';
 import './flatList.sass';
 import style from 'styled-components';
 
@@ -28,14 +29,14 @@ cursor:pointer
 function FlatList() {
    const dispatch = useDispatch();
    const flatsArr = useSelector(state => state.flats);
-   const likedArr = useSelector(state => state.likeFlats)
+   const likedArr = useSelector(state => state.likeFlats);
+   const error = useSelector(state => state.error);
 
-   const [filtered, setFiltered] = useState(false)
+   const [filtered, setFiltered] = useState(false);
 
    const filterTrigger = () => {
       setFiltered(!filtered);
    }
-
 
    return (
       <>
@@ -49,19 +50,17 @@ function FlatList() {
          </div>
          {flatsArr.length === 0 ?
             <h1 className='cards__title'>Загрузите данные</h1>
-            :
-            <span></span >
+            : <span></span>
          }
          <div className='cards'>
             {
-               flatsArr.length > 0 ?
+               error === true ? <Error /> : flatsArr.length > 0 && error === false ?
                   !filtered ? flatsArr.map((item) =>
                      <FlatListItem key={item.id} item={item} />)
                      : likedArr.length > 0 ? likedArr.map((item) =>
                         <FlatListItem key={item.id} item={item} />)
                         : <h1 className='cards__title_grid'>Выберите понравившееся вам посты</h1>
-                  :
-                  <span></span>
+                  : <span></span>
             }
          </div>
       </>
