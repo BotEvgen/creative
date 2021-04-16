@@ -47,21 +47,25 @@ function FlatList() {
                   <Button onClick={() => filterTrigger()}>UnLiked</Button>
             }
          </div>
+         {flatsArr.length === 0 ?
+            <h1 className='cards__title'>Загрузите данные</h1>
+            :
+            <span></span >
+         }
          <div className='cards'>
             {
                flatsArr.length > 0 ?
                   !filtered ? flatsArr.map((item) =>
                      <FlatListItem key={item.id} item={item} />)
-                     : likedArr.map((item) =>
+                     : likedArr.length > 0 ? likedArr.map((item) =>
                         <FlatListItem key={item.id} item={item} />)
+                        : <h1 className='cards__title_grid'>Выберите понравившееся вам посты</h1>
                   :
-                  <h1 className='title'>Загрузите данные</h1>
+                  <span></span>
             }
          </div>
-
       </>
    )
-
 }
 
 export default FlatList

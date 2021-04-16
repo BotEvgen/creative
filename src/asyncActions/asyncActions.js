@@ -5,5 +5,6 @@ export const fetchFlats = () => {
       fetch('http://localhost:3000/response')
          .then(response => response.json())
          .then(json => dispatch(addAllFlatsAction(json)))
+         .catch(e => console.log(`Произошла ошибка ${e}`))
    }
 }

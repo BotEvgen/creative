@@ -1,12 +1,29 @@
 .cards
    margin-top: 20px
-   display: flex
-   flex-wrap: wrap
-   justify-content: space-between
+   display: grid
+   grid-template-rows: 1fr 1fr 1fr
+   grid-template-columns: 1fr 1fr 1fr
+   grid-gap: 2vw
 
-.title
-   margin: auto auto
+   &__title
+      margin-top: 10px
+      text-align: center
+      display: block
+      &_grid
+         text-align: center
+         grid-column-start: 1
+         grid-column-end: 5
 
 .btns
    display: flex
    justify-content: center
+
+@media (max-width: 1350px)
+   .cards
+      grid-template-rows: 1fr 1fr
+      grid-template-columns: 1fr 1fr
+
+@media (max-width: 769px)
+   .cards
+      grid-template-rows: 1fr
+      grid-template-columns: 1fr
