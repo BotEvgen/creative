@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import './flatListItem.sass';
 import { addLikeFlatAction, addDisLikeFlatAction } from '../../store/reducer/reducer';
 
@@ -55,12 +55,12 @@ const FlatListItem = ({ item }) => {
                   <li className='item'>{`${getAgent(typeRel)} : ${last_name} ${first_name} ${middle_name}`}</li>
                </ul>
             </div>
-            <div className='icon'>
-               {isLiked !== true ?
-                  <i className="cardItem__icon_checked fa fa-heart" onClick={likedFlat}> </i>
-                  :
-                  <i className="cardItem__icon fa fa-heart" onClick={likedFlat}> </i>}
-            </div>
+         </div>
+         <div className='cardItem__icon-wrapper'>
+            {isLiked !== true ?
+               <i className="cardItem__icon_checked fa fa-heart" onClick={likedFlat}> </i>
+               :
+               <i className="cardItem__icon fa fa-heart" onClick={likedFlat}> </i>}
          </div>
       </div>
    )
