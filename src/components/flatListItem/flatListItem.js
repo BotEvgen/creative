@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './flatListItem.sass';
-import addLikeFlatAction from '../../store/reducer/reducer';
+import { addLikeFlatAction, addDisLikeFlatAction } from '../../store/reducer/reducer';
 
-const FlatListItem = ({ item, clickedOnLike }) => {
+const FlatListItem = ({ item }) => {
+
+   const dispatch = useDispatch();
 
    const itemObj = item;
    const { type, id, attributes, relationships } = itemObj;
@@ -11,12 +14,20 @@ const FlatListItem = ({ item, clickedOnLike }) => {
    const { type: typeRel, id: idRel, attributes: attributesRel } = relationships;
    const { first_name, last_name, middle_name } = attributesRel;
 
-   const [isLiked, setLiked] = useState(false);
+   const [isLiked, setLiked] = useState(true);
 
-   const clicked = () => {
+
+   const likedFlat = async () => {
       setLiked(!isLiked)
-      clickedOnLike();
-   };
+      if (isLiked === true) {
+         dispatch(addLikeFlatAction(id))
+      }
+      else {
+         dispatch(addDisLikeFlatAction(id))
+      }
+   }
+
+
    return (
       <div className='cardItem'>
          {/* <div className="cardItem__general">
@@ -43,10 +54,10 @@ const FlatListItem = ({ item, clickedOnLike }) => {
                </ul>
             </div>
             <div className='icon'>
-               {isLiked === true ?
-                  <i className="cardItem__icon_checked fa fa-heart" onClick={clicked}> </i>
+               {isLiked !== true ?
+                  <i className="cardItem__icon_checked fa fa-heart" onClick={likedFlat}> </i>
                   :
-                  <i className="cardItem__icon fa fa-heart" onClick={clicked}> </i>}
+                  <i className="cardItem__icon fa fa-heart" onClick={likedFlat}> </i>}
             </div>
 
          </div>
@@ -55,5 +66,4 @@ const FlatListItem = ({ item, clickedOnLike }) => {
 }
 
 export default FlatListItem
-
 
