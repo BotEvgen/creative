@@ -14,7 +14,7 @@ const FlatListItem = ({ item }) => {
 
    const [isLiked, setLiked] = useState(true);
 
-   const likedFlat = async () => {
+   const likedFlat = () => {
       setLiked(!isLiked)
       if (isLiked === true) {
          dispatch(addLikeFlatAction(id))
@@ -26,6 +26,12 @@ const FlatListItem = ({ item }) => {
 
    const getAgent = (word) => {
       return [...word].map((item, i) => i === 0 ? item.toUpperCase() : item).join('')
+   }
+
+   const Icon = ({ classChecked = '' }) => {
+      return (
+         <i className={`cardItem__icon${classChecked} fa fa-heart`} onClick={likedFlat}> </i>
+      )
    }
 
 
@@ -58,9 +64,9 @@ const FlatListItem = ({ item }) => {
          </div>
          <div className='cardItem__icon-wrapper'>
             {isLiked !== true ?
-               <i className="cardItem__icon_checked fa fa-heart" onClick={likedFlat}> </i>
+               <Icon classChecked='_checked' />
                :
-               <i className="cardItem__icon fa fa-heart" onClick={likedFlat}> </i>}
+               <Icon />}
          </div>
       </div>
    )

@@ -38,29 +38,36 @@ function FlatList() {
       setFiltered(!filtered);
    }
 
+   const renderItems = (array) => {
+      return array.map((item) =>
+         <FlatListItem key={item.id} item={item} />)
+   }
+
+   const buttonFilter = (func, text) => (
+      <Button Button onClick={() => func()}> {text}</Button >
+   )
+
    return (
       <>
          <div className='btns'>
             <Button onClick={() => dispatch(fetchFlats())}>Upload</Button>
             {
-               !filtered ? <Button onClick={() => filterTrigger()}>Liked</Button>
+               !filtered ? buttonFilter(filterTrigger, 'Liked')
                   :
-                  <Button onClick={() => filterTrigger()}>UnLiked</Button>
+                  buttonFilter(filterTrigger, 'All')
             }
          </div>
          {flatsArr.length === 0 ?
             <h1 className='cards__title'>Загрузите данные</h1>
-            : <span></span>
+            : null
          }
          <div className='cards'>
             {
                error === true ? <Error /> : flatsArr.length > 0 && error === false ?
-                  !filtered ? flatsArr.map((item) =>
-                     <FlatListItem key={item.id} item={item} />)
-                     : likedArr.length > 0 ? likedArr.map((item) =>
-                        <FlatListItem key={item.id} item={item} />)
+                  !filtered ? renderItems(flatsArr)
+                     : likedArr.length > 0 ? renderItems(likedArr)
                         : <h1 className='cards__title_grid'>Выберите понравившееся вам посты</h1>
-                  : <span></span>
+                  : null
             }
          </div>
       </>
