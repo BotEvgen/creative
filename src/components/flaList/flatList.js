@@ -51,10 +51,11 @@ function FlatList() {
       <>
          <div className='btns'>
             <Button onClick={() => dispatch(fetchFlats())}>Upload</Button>
-            {
+            {error === false ?
                !filtered ? buttonFilter(filterTrigger, 'Liked')
                   :
                   buttonFilter(filterTrigger, 'All')
+               : null
             }
          </div>
          {flatsArr.length === 0 ?
