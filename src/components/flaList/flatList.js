@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFlats } from '../../asyncActions/asyncActions';
+import { addLoadingAction } from '../../store/reducer/reducer';
 import FlatListItem from '../flatListItem';
 import Error from '../error';
+import Spinner from '../spinner';
 import './flatList.sass';
 import style from 'styled-components';
 
@@ -31,6 +33,7 @@ function FlatList() {
    const flatsArr = useSelector(state => state.flats);
    const likedArr = useSelector(state => state.likeFlats);
    const error = useSelector(state => state.error);
+   const loading = useSelector(state => state.loading);
 
    const [filtered, setFiltered] = useState(false);
 
@@ -43,28 +46,34 @@ function FlatList() {
          <FlatListItem key={item.id} item={item} />)
    }
 
-   const buttonFilter = (func, text) => (
+   const buttonFilter = (func, text = '') => (
       <Button Button onClick={() => func()}> {text}</Button >
    )
+
+   const uploadClick = () => {
+      return [dispatch(addLoadingAction()),
+      dispatch(fetchFlats())]
+   }
+
 
    return (
       <>
          <div className='btns'>
-            <Button onClick={() => dispatch(fetchFlats())}>Upload</Button>
-            {error === false ?
+            <Button onClick={uploadClick}>Upload</Button>
+            {flatsArr.length > 0 && !error ?
                !filtered ? buttonFilter(filterTrigger, 'Liked')
                   :
                   buttonFilter(filterTrigger, 'All')
                : null
             }
          </div>
-         {flatsArr.length === 0 ?
+         {flatsArr.length === 0 && !loading ?
             <h1 className='cards__title'>Загрузите данные</h1>
-            : null
+            : flatsArr.length === 0 && loading ? <Spinner /> : null
          }
          <div className='cards'>
             {
-               error === true ? <Error /> : flatsArr.length > 0 && error === false ?
+               error ? <Error /> : flatsArr.length > 0 && !error ?
                   !filtered ? renderItems(flatsArr)
                      : likedArr.length > 0 ? renderItems(likedArr)
                         : <h1 className='cards__title_grid'>Выберите понравившееся вам посты</h1>
