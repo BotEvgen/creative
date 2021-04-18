@@ -18,3 +18,5 @@
 ### UPDATE
 
 Запрос осуществляется по "http://localhost:3001/response"
+
+build создавал через встроенный в react-create-app build, поэтому отдельно запушил на гитхаб
